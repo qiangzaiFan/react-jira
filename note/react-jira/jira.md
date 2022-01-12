@@ -14,7 +14,7 @@
 
 # 初始化项目
 
-## 用Create React App 创建项目
+## 用Create React App 初始化项目
 
 - 官网有介绍。
 
