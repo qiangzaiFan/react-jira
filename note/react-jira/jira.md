@@ -160,5 +160,144 @@ npx create-react-app jira --template typescript --use-npm
     
     - 
 
+
+
+
+## 对比常见mock方案，配置JSON SERVER
+
+### 常见Mock方案
+
+- 代码侵入（直接在代码中写死Mock数据，或者请求本地的JSON文件）
+
+  - 优点：无
+
+  - 缺点：
+
+    1.和其他方案比Mock效果不好
+
+    2.与真实Server环境的切换非常麻烦，一切需要侵入代码切换环境的行为都是不好的
+
+- 请求拦截
+
+  - 代表：[Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started)
+    原理是重写xmlHttpRequest的一些属性，然后帮助门额返回我们想要的数据
+  - 实例：
+  - 优点：
+    - 与前端代码分离
+    - 可生成随机数据
+  - 缺点：
+    - 数据都是动态生成的假数据，无法真是模拟真删改查的情况
+    - 只支持ajax,不支持fetch
+  - 
+
+- 接口管理工具
+
+  - 代表：rap(阿里出品)、swagger、moco、yapi
+
+  - 优点：
+
+    1.配置功能强大，接口管理与Mock一体，后端修改接口Mock也跟着改，可靠
+
+  - 缺点：
+    1.配置复杂，依赖后端，可能会出现后端不愿意出手，或者等配置完了，接口也开发出来了的情况。
+
+  - 一般会作为大团队的基础建设而存在，没有这个条件的话慎重考虑
+
+- 本地Node服务器
+
+  - 代表：[json-server](https://github.com/typicode/json-server)
+  - 优点：
+    1. 配置简单，json-server甚至可以0代码30秒启动一个REST API Server
+    2. 自定义程度高，一切尽在掌握中
+    3. 增删改查真是模拟
+  - 缺点：
+    1. 与接口管理工具相比，无法随着后端API的修改而自动修改
+  - 在这2章里面会接触到不同的（GET、POST 、DELETE 、 PATCH）Mock场景，
+
 - 
 
+- REST API
+
+  - 一句话总结：URI代表资源/对象, METHOD代表行为
+
+    ```javascript
+    GET /tickets  //列表
+    GET /tickets/12  //详情
+    POST /tickets  //增加
+    PUT /tickets/12  //替换
+    PATCH /tickets/12  //修改
+    DELETE /tickets/12  //删除
+    ```
+
+    
+
+### JSON SERVER使用
+
+- 步骤（参考官网）
+
+  ```javascript
+  1. Install JSON Server
+  
+  	npm install -g json-server 或者 yarn add json-server -D
+  
+  2. Create a db.json file with some data（创建一个json文件，起名叫db.json，文件放置在跟index.html平级的目录中，也可以放置在static文件夹中，db.json文件里面的内容，是一个对象。）
+  
+      {
+        "posts": [
+          { "id": 1, "title": "json-server", "author": "typicode" }
+        ],
+        "comments": [
+          { "id": 1, "body": "some comment", "postId": 1 }
+        ],
+        "profile": { "name": "typicode" }
+      }
+  
+  3. Start JSON Server
+  
+  	json-server --watch db.json
+  
+  4. Now if you go to http://localhost:3000/posts/1, you'll get
+  
+  	{ "id": 1, "title": "json-server", "author": "typicode" }
+  ```
+
+  - 运行完之后会生成对应的resource，可以去postman测试一下
+    ![image-20220114152953383](jira.assets/image-20220114152953383.png)
+
+    ![image-20220114153037136](jira.assets/image-20220114153037136.png)
+
+  - 
+
+- 项目中使用
+
+  - 创建 __json_server_mock__  文件夹 前后有两个空格，告诉看代码的人，这个文件夹和我们项目本身没什么关系，起辅助作用。创建db.json
+
+    - value 必须是数组或者对象
+      ![image-20220114171842791](jira.assets/image-20220114171842791.png)
+
+  - 然后在package.json中 scripts 下添加命令
+
+    - "json-server":"json-server __json_server_mock__/db.json --watch"
+
+      ![image-20220114171600322](jira.assets/image-20220114171600322.png)
+
+    - 尝试一下启动
+
+      npm run json-server
+
+    - 
+
+  - 
+
+- 
+
+
+
+
+
+# React 自定义hook和状态提升分享组件状态
+
+- encodeURIComponent（转义） 和 decodeURIComponent (解码)
+  - ![image-20220114182626104](jira.assets/image-20220114182626104.png)
+  - encodeURI 可以转义整个url
+- 
