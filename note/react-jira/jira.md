@@ -113,7 +113,7 @@ npx create-react-app jira --template typescript --use-npm
     - 配置步骤 [commitlint github文档--Getting started](https://github.com/conventional-changelog/commitlint)
 
       ```javascript
-      1. 安装对应的系统依赖并创建文件（可以使用yarn add ）
+      1. 安装对应的系统依赖并创建文件（可以使用yarn add，但是yarn add commitlint/config-conventional 没有这个模块，必须使用npm install这个模块  ）
       	# Install commitlint cli and conventional config
           npm install --save-dev @commitlint/{config-conventional,cli}
           # For Windows:
@@ -125,17 +125,19 @@ npx create-react-app jira --template typescript --use-npm
       	#!/bin/sh
           . "$(dirname "$0")/_/husky.sh"
       
-          cd jira && npx --no -- commitlint --edit $1 
+          cd jira && npx --no -- commitlint --edit $1 或者 cd jira && npx commitlint --edit $1 等等
       3. 文档中 Shared configuration 下 config-conventional 就是 commit 的规则
       	
       ```
 
       - git commit 的时候报错（对应步骤第二点完成后提交）
 
-        ![image-20220113170554607](jira.assets/image-20220113170554607.png)
+        报错信息演示
+
+        ![image-20220114094707347](jira.assets/image-20220114094707347.png)
 
         - 提交的规则（fix: some message）
-
+        
           ```
           [
             'build', 
@@ -149,13 +151,12 @@ npx create-react-app jira --template typescript --use-npm
             'revert',
             'style',   // 改进了样式
             'test'	// 增加了测试脚本
-          ];
+      ];
           ```
 
         
-
-        
-
+      
+    
     - 
 
 - 
