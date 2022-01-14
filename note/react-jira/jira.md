@@ -79,16 +79,16 @@ npx create-react-app jira --template typescript --use-npm
     - 步骤 [npx mrm@2 lint-staged报错解决](https://typicode.github.io/husky/#/?id=custom-directory)，[github解决方案](https://github.com/okonet/lint-staged/issues/961)
 
       [eslint-config-prettier 依赖地址](https://prettier.io/docs/en/install.html#eslint-and-other-linters)
-    
+
       ```javascript
       1. 安装 husky and lint-staged 依赖
       	npx mrm@2 lint-staged 
       	此命令会出现.git can't found 报错,原因是package.json文件与 .git 不在同一目录下，不同层级，参考官网提示（在步骤后面的地址中）。
       	修改package.json中scripts的prepare("prepare": "cd .. && husky install jira/.husky"),
       2. 修改scripts后，需要执行 yarn 或者 npm install,运行scripts 中的prepare,会在目录下面生成 .husky文件夹
-    3.在 .husky文件夹下面新建文件 pre-commit,文件中输入以下命令 
+      3.在 .husky文件夹下面新建文件 pre-commit,文件中输入以下命令 （不需要运行npx mrm@2 lint-staged 这个命令）
       	#!/bin/sh
-        . "$(dirname "$0")/_/husky.sh"
+          . "$(dirname "$0")/_/husky.sh"
           cd pathToYourProject && npx lint-staged
       4. 增加对ts、tsx文件的格式化，修改package.json中的 'lint-staged'命令
       	"*.{js,css,md,ts,tsx}": "prettier --write"	
@@ -105,9 +105,57 @@ npx create-react-app jira --template typescript --use-npm
             
       	
       ```
-    
+
       
-    
+
+    - commitlint规范 （目的是 每次 git commit的时候，对commit message进行校验，查看是否符合一定的规范，如果不符合，提交失败）
+
+    - 配置步骤 [commitlint github文档--Getting started](https://github.com/conventional-changelog/commitlint)
+
+      ```javascript
+      1. 安装对应的系统依赖并创建文件（可以使用yarn add ）
+      	# Install commitlint cli and conventional config
+          npm install --save-dev @commitlint/{config-conventional,cli}
+          # For Windows:
+          npm install --save-dev @commitlint/config-conventional @commitlint/cli
+      
+          # Configure commitlint to use conventional config
+          echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+      2. 在husky文件夹下面创建 commit-msg文件，添加下面话或者其他，看文档
+      	#!/bin/sh
+          . "$(dirname "$0")/_/husky.sh"
+      
+          cd jira && npx --no -- commitlint --edit $1 
+      3. 文档中 Shared configuration 下 config-conventional 就是 commit 的规则
+      	
+      ```
+
+      - git commit 的时候报错（对应步骤第二点完成后提交）
+
+        ![image-20220113170554607](jira.assets/image-20220113170554607.png)
+
+        - 提交的规则（fix: some message）
+
+          ```
+          [
+            'build', 
+            'chore',
+            'ci',
+            'docs',  // 指更新了文档
+            'feat', // 指 这一次添加了新的功能
+            'fix',
+            'perf', // 指这一次提升了性能
+            'refactor',
+            'revert',
+            'style',   // 改进了样式
+            'test'	// 增加了测试脚本
+          ];
+          ```
+
+        
+
+        
+
     - 
 
 - 
