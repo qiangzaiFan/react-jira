@@ -129,6 +129,7 @@ npx create-react-app jira --template typescript --use-npm
           cd jira && npx --no -- commitlint --edit $1 或者 cd jira && npx commitlint --edit $1 等等
       3. 文档中 Shared configuration 下 config-conventional 就是 commit 的规则
       	
+      ```
     ```
     
     - git commit 的时候报错（对应步骤第二点完成后提交）
@@ -139,7 +140,7 @@ npx create-react-app jira --template typescript --use-npm
     
         - 提交的规则（fix: some message）
         
-          ```
+    ```
           [
             'build', 
             'chore',
@@ -156,7 +157,9 @@ npx create-react-app jira --template typescript --use-npm
         ```
     
       
-        
+    
+    
+    ​    
     
     - 
 
@@ -285,6 +288,9 @@ npx create-react-app jira --template typescript --use-npm
 
       npm run json-server
 
+    - json-server与项目运行后是一个端口，修改json-server的端口
+      "json-server":"json-server __json_server_mock__/db.json --watch --port 3001"
+
     - 
 
   - 
@@ -297,7 +303,170 @@ npx create-react-app jira --template typescript --use-npm
 
 # React 自定义hook和状态提升分享组件状态
 
+
+
+  
+
+
+
+## 查询骑手demo
+
 - encodeURIComponent（转义） 和 decodeURIComponent (解码)
-  - ![image-20220114182626104](jira.assets/image-20220114182626104.png)
-  - encodeURI 可以转义整个url
+
+- ![image-20220114182626104](jira.assets/image-20220114182626104.png)
+- encodeURI 可以转义整个url
+
+- 创建对应的组件,但是search-panel组件里面的状态没有提升，根据项目名改变，请求list的接口放在了searchPanel里面，List组件如何获取呢？react文件虽然不使用React,但是一定要引入 （imort React from 'react'）
+
+  - ![image-20220117104826461](jira.assets/image-20220117104826461.png)
+
+  - ![image-20220117104725334](jira.assets/image-20220117104725334.png)
+
+  - ```javascript
+    import React from 'react';
+    import {useEffect, useState} from 'react';
+    
+    export const SearchPanel = () =>{
+      const [param,setParam] = useState({
+        name:'',
+        personId:''
+      })
+    
+      const [users,setUsers] = useState([])
+      const [list,setList] = useState([]) 
+    
+      useEffect(() => {
+        fetch('').then( async response => {
+          if(response.ok){
+            setList(await response.json())
+          }
+        })
+      },[param])
+    
+      
+    
+      return <form >
+        <input type="text" value={param.name} onChange={evt => setParam({
+          ...param,
+          name:evt.target.value
+        })}/>
+    
+        <select value={param.personId} onChange={evt => setParam({
+          ...param,
+          personId:evt.target.value
+        })>
+          <option value="">负责人</option>
+          {
+            users.map(user => <option value={user.id}>{user.name}</option>)
+          }
+        </select>
+      </form>
+    }
+    ```
+
+  - 
+
+- 将子组件里面的数据提升到父组件中，再流向各个子组件。
+
+  - index.jsx
+
+    ```javascript
+    import React from 'react';
+    import {useState , useEffect} from 'react';
+    import {SearchPanel} from './search-panel';
+    import {List} from './list';
+    
+    export const ProjectListScreen = () => {
+      const [param,setParam] = useState({
+        name:'',
+        personId:''
+      })
+      const [list,setList] = useState([]) 
+    
+      useEffect(() => {
+        fetch('').then( async response => {
+          if(response.ok){
+            setList(await response.json())
+          }
+        })
+      },[param])
+    
+      return <div>
+        <SearchPanel param={param} setParam={setParam}/>
+        <List/>
+      </div>
+    }
+    ```
+
+    
+
+  - 
+
+- 配置mock地址公共变量，真实请求地址和json-server请求地址
+
+  - 在项目下创建 .env 和 .env.development文件，运行命令的时候会自动化的切换我们的环境变量
+
+    - 项目运行npm run dev的时候会自动读取 .env文件(配置的mock接口地址)
+      - ![image-20220117152313558](jira.assets/image-20220117152313558.png)
+    - 项目运行npm run build的时候会自动读取 .env.development文件(配置的真实接口地址)
+      - ![image-20220117152306974](jira.assets/image-20220117152306974.png)
+
+  - 替换项目中使用的mock地址
+
+    - 使用process获取当前的环境变量
+
+      ```javascript
+      const apiUrl = process.env.REACT_APP_API_URL
+      
+      export const ProjectListScreen = () => {
+        const [param,setParam] = useState({
+          name:'',
+          personId:''
+        })
+        const [list,setList] = useState([]) 
+      
+        useEffect(() => {
+          fetch(`${apiUrl}/projects`).then( async response => {
+            if(response.ok){
+              setList(await response.json())
+            }
+          })
+        },[param])
+          ......等等
+      ```
+
+      
+
+    - db.json文件中的数据mock完之后，需要在vscode中再开一个任务，运行mock任务，再启动项目
+
+      - ![image-20220117160337788](jira.assets/image-20220117160337788.png)
+
+    - 
+
+  - 
+
+
+
+## qs 接口后面的参数用qs插件
+
 - 
+
+  - 步骤
+
+    ```javascript
+    yarn add qs
+    ```
+
+    
+
+  - 使用
+    `${apiUrl}/projects?qs.stringify(params)`
+
+    fetch(`${apiUrl}/projects?${qs.stringify(param)}`)
+
+  - 
+
+- 
+
+
+
