@@ -53,7 +53,7 @@ npx create-react-app jira --template typescript --use-npm
     ![image-20220113101101510](jira.assets/image-20220113101101510.png)
   - 我们的绝对路径会去src下面寻找
     ![image-20220113101010100](jira.assets/image-20220113101010100.png)
-- 
+- 将 strict 改为false，不然后面写函数的时候，函数参数下面一直会有红色波浪线
 
 ### 如何确保编辑我们项目的人都能采用统一的格式化配置呢--prettier
 
@@ -465,6 +465,15 @@ npx create-react-app jira --template typescript --use-npm
     fetch(`${apiUrl}/projects?${qs.stringify(param)}`)
 
   - 
+
+
+
+## 学习自定义Hook,用useDebounce 减少工程搜索请求（Custom Hook）
+
+- 用Custom Hook 提取并复用组件代码
+  Custom Hook 是React中最新也是最优秀的组件代码复用方案
+
+  目前已经使用了 useState 和useEffect 两个最基本的React自带Hook,下面会使用useMount 和 useDebounce 两个custom Hook
 
 - 
 
