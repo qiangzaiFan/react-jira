@@ -550,3 +550,9 @@ npx create-react-app jira --template typescript --use-npm
 
 
 
+# TS学习以及使用TS修改之前的自定义Hook
+
+## 为什么我们需要TS，真实场景学习TS的必要性
+
+- TS可以在编写代码的时候发现语法错误，正常我们需要在运行代码的时候才能发现。
+
