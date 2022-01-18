@@ -10,11 +10,11 @@ export const List = ({ users, list }) => {
       </thead>
       <tbody>
         {list.map((project) => (
-          <tr>
+          <tr key={project.personId}>
             <td>{project.name}</td>
             <td>
-              {users.find((user) => user.id === project.personId)?.name ||
-                "未知"}
+              {users.find((user) => String(user.id) === project.personId)
+                ?.name || "未知"}
             </td>
           </tr>
         ))}

@@ -159,6 +159,7 @@ npx create-react-app jira --template typescript --use-npm
       
     
     
+    
     ​    
     
     - 
@@ -474,6 +475,76 @@ npx create-react-app jira --template typescript --use-npm
   Custom Hook 是React中最新也是最优秀的组件代码复用方案
 
   目前已经使用了 useState 和useEffect 两个最基本的React自带Hook,下面会使用useMount 和 useDebounce 两个custom Hook
+
+- 对于custom Hook来言，里面需要使用到其他的hook,不然还是写成正常的函数就行
+
+- useMount (定义的函数必须以use开始作为命名)
+
+  - 代码
+
+    ```javascript
+    utils.js
+    export const useMount = (callback) => {
+      useEffect(() => {
+        callback()
+      })
+    }
+    
+    index.jsx 使用
+    
+      useEffect(() => {
+        fetch(`${apiUrl}/users`).then(async (response) => {
+          if (response.ok) {
+            setUsers(await response.json());
+          }
+        });
+      }, []);
+    ```
+
+    
+
+  - 
+
+- useDebounce
+
+  - useEffect 中，return出来的回调函数在什么时候可以运行。是在上一次useEffect运行完之后再来运行，一般负责清理的任务。回调函数会在下次render前或者组件销毁的时候调用
+
+  - 代码
+
+    ```javascript
+    export const useDebounce = (value,delay) => {
+      const [debounceValue,setDebounceValue] = useState(value);
+    
+      useEffect(() => {
+        // 每次在value变化以后，设置一个定时器
+       const timeout = setTimeout(() => { setDebounceValue(value) }, delay);
+       // 每次在上一个useEffect 处理完以后再运行，第二个timeout被第3个清理，回调函数会在下次render前或者组件销毁的时候调用
+       return () => {
+         clearTimeout(timeout)
+       }
+      },[value,delay])
+    
+      return debounceValue
+    }
+    
+    使用：
+    
+      const debounceParam = useDebounce(param,2000)
+    
+      useEffect(() => {
+        fetch(`${apiUrl}/projects?${qs.stringify(clearObject(debounceParam))}`).then(
+          async (response) => {
+            if (response.ok) {
+              setList(await response.json());
+            }
+          }
+        );
+      },[debounceParam]);
+    ```
+
+    
+
+  - 
 
 - 
 
