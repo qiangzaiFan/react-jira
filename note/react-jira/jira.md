@@ -160,6 +160,7 @@ npx create-react-app jira --template typescript --use-npm
     
     
     
+    
     ​    
     
     - 
@@ -554,5 +555,41 @@ npx create-react-app jira --template typescript --use-npm
 
 ## 为什么我们需要TS，真实场景学习TS的必要性
 
-- TS可以在编写代码的时候发现语法错误，正常我们需要在运行代码的时候才能发现。
+- 正常写JS的时候，大部分的错误都是在runtime（运行时）的时候发现的。
+- 我们希望，在静态代码中，我们就能发现其中的一些错误--> 强类型。
+- index.d.ts 是一些js库的补丁文件，让插件可以支持Ts
 
+
+
+## 语法
+
+### 接口
+
+- 传入的参数要对它进行类型定义
+
+  ```javascript
+  interface User {
+    id:string,
+    name:string,
+    email:string,
+    title:string,
+    organization:string,
+  }
+  
+  interface SearchPanelProps {
+    users: User[];
+    param: {
+      name: string;
+      personId: string;
+    };
+    setParam: (param: SearchPanelProps["param"]) => void;
+  }
+  
+  export const SearchPanel = ({ users, param, setParam }:SearchPanelProps) => {
+  ```
+
+  
+
+- 
+
+ 
