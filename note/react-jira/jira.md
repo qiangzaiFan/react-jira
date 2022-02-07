@@ -555,11 +555,13 @@ npx create-react-app jira --template typescript --use-npm
 
 ## 为什么我们需要TS，真实场景学习TS的必要性
 
+- 需要在 tsconfig配置里面，把strict 设置为true
+
 - 正常写JS的时候，大部分的错误都是在runtime（运行时）的时候发现的。
 - 我们希望，在静态代码中，我们就能发现其中的一些错误--> 强类型。
 - index.d.ts 是一些js库的补丁文件，让插件可以支持Ts
 
-
+- 
 
 ## 语法
 
