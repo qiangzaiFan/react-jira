@@ -2,22 +2,24 @@ import { useEffect, useState } from "react";
 
 export const isFalsy = (value: number) => (value === 0 ? false : !value);
 
-export const clearObject = (object) => {
+export const clearObject = (object: object) => {
   // Object.assign({},object)
   const result = { ...object };
   Object.keys(object).forEach((key) => {
+    // @ts-ignore 这里需要泛型来解决
     const value = result[key];
     if (isFalsy(value)) {
+      // @ts-ignore
       delete result[key];
     }
   });
 };
 
-// export const useMount = (callback) => {
-//   useEffect(() => {
-//     callback()
-//   })
-// }
+export const useMount = (callback: () => void) => {
+  useEffect(() => {
+    callback();
+  });
+};
 
 // const debounce = (func,delay) => {
 //   let timeout;
@@ -38,7 +40,7 @@ export const clearObject = (object) => {
 
 // 一定要理解这3个函数 （log）都是同步操作，所以它们在0-1s这个时间段内瞬间完成的
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = <T>(value: T, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
 
   useEffect(() => {
