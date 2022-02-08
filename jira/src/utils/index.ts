@@ -56,3 +56,14 @@ export const useDebounce = <T>(value: T, delay?: number) => {
 
   return debounceValue;
 };
+
+export const useArray = <T>(value: T) => {
+  // value , clear, removeIndex, add
+  const clear = () => {
+    return [];
+  };
+  const removeIndex = (index: number) => {
+    return value.slice(1);
+  };
+  return { value, clear, removeIndex, add };
+};
