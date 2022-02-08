@@ -808,7 +808,10 @@ TypeScript  是 ‘’强类型‘’ 版的 JavaScript ,	当我们在代码中�
 
 ### 泛型（generic）
 
-- D 
+- 介绍
+  - ![image-20220208165931478](jira.assets/image-20220208165931478.png)
+
+- 例子
 
   ```javascript
   export const useDebounce = <T>(value:T, delay ?: number) => {
