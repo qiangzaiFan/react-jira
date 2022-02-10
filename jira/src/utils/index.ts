@@ -57,14 +57,20 @@ export const useDebounce = <T>(value: T, delay?: number) => {
   return debounceValue;
 };
 
-export const useArray = <T>(value: T) => {
-  // d
+// T[] 表示每一项都是T的数组
+export const useArray = <T>(initialArray: T[]) => {
+  const [value, setValue] = useState(initialArray);
   // value , clear, removeIndex, add
   const clear = () => {
-    return [];
+    return setValue([]);
+  };
+  const add = (object: T) => {
+    return setValue([...value, object]);
   };
   const removeIndex = (index: number) => {
-    return value.slice(1);
+    const copy = [...value];
+    copy.splice(index, 1);
+    setValue(copy);
   };
   return { value, clear, removeIndex, add };
 };

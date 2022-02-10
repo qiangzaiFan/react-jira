@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useMount, useArray } from "utils/index";
 export const TsReactTest = () => {
   const persons: { name: string; age: number }[] = [
@@ -18,8 +18,10 @@ export const TsReactTest = () => {
     <div>
       {/* 期待点击之后增加john */}
       <button onClick={() => add({ name: "john", age: 22 })}>add john</button>
-      <button onClick={() => removeIndex(0)}></button>
-      <button style={{ marginBottom: "50px" }} onClick={() => clear()}></button>
+      <button onClick={() => removeIndex(0)}>删除</button>
+      <button style={{ marginBottom: "50px" }} onClick={() => clear()}>
+        清空
+      </button>
       {value.map((persion: { name: string; age: number }, index: number) => {
         return (
           <div style={{ marginBottom: "30px" }}>
