@@ -9,6 +9,7 @@ export const TsReactTest = () => {
   const { value, clear, removeIndex, add } = useArray(persons);
 
   useMount(() => {
+    // test 泛型报错
     // console.log(value.notExits);
     // add({name:'david'});
     // removeIndex("123");

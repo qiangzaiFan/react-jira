@@ -162,6 +162,7 @@ npx create-react-app jira --template typescript --use-npm
     
     
     
+    
     ​    
     
     - 
@@ -809,8 +810,9 @@ TypeScript  是 ‘’强类型‘’ 版的 JavaScript ,	当我们在代码中�
 ### 泛型（generic）
 
 - 介绍
-  - ![image-20220208165931478](jira.assets/image-20220208165931478.png)
-
+  
+- ![image-20220208165931478](jira.assets/image-20220208165931478.png)
+  
 - 例子
 
   ```javascript
@@ -824,5 +826,93 @@ TypeScript  是 ‘’强类型‘’ 版的 JavaScript ,	当我们在代码中�
   - 使用的时候返回的类型就和之前保持一致了
     - ![image-20220208165621763](jira.assets/image-20220208165621763.png)
 
+
+
+
+
+
+### 使用泛型创建useArray
+
+- useArray代码
+
+  ```javascript
+  // T[] 表示每一项都是T的数组
+  export const useArray = <T>(initialArray: T[]) => {
+    const [value, setValue] = useState(initialArray);
+    // value , clear, removeIndex, add
+    const clear = () => {
+      return setValue([]);
+    };
+    const add = (object: T) => {
+      return setValue([...value, object]);
+    };
+    const removeIndex = (index: number) => {
+      const copy = [...value];
+      copy.splice(index, 1);
+      setValue(copy);
+    };
+    return { value, clear, removeIndex, add };
+  };
+  ```
+
+  
+
+- 功能代码(try-use-array组件)
+
+  ```javascript
+  import React from "react";
+  import { useMount, useArray } from "utils/index";
+  export const TsReactTest = () => {
+    const persons: { name: string; age: number }[] = [
+      { name: "Jack", age: 25 },
+      { name: "Rose", age: 18 },
+    ];
+  
+    const { value, clear, removeIndex, add } = useArray(persons);
+  
+    useMount(() => {
+      // test 泛型报错
+      // console.log(value.notExits);
+      // add({name:'david'});
+      // removeIndex("123");
+    });
+  
+    return (
+      <div>
+        {/* 期待点击之后增加john */}
+        <button onClick={() => add({ name: "john", age: 22 })}>add john</button>
+        <button onClick={() => removeIndex(0)}>删除</button>
+        <button style={{ marginBottom: "50px" }} onClick={() => clear()}>
+          清空
+        </button>
+        {value.map((persion: { name: string; age: number }, index: number) => {
+          return (
+            <div style={{ marginBottom: "30px" }}>
+              <span style={{ color: "red", marginRight: "50px" }}>{index}</span>
+              <span style={{ marginRight: "50px" }}>{persion.name}</span>
+              <span style={{ marginRight: "50px" }}>{persion.age}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  
+  ```
+
+  
+
 - 
+
+
+
+
+
+# 项目功能实现
+
+## 登录功能
+
+### 用React表单，TS的类型继承和鸭子类型继承实现登录表单
+
+## 
 
